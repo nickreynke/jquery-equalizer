@@ -7,11 +7,25 @@ A simple equalizer built on top of jQuery.
 
 # Features
 
-TODO
+* Equalizes heights of `data-equalize-child` elements within `data-equalize-parent` elements
+  * Looks for the highest height of the child elements and sets it for all child elements
 
-# Basic usage
+# Usage
 
-TODO
+Place a data attribute called `data-equalize-parent` on a parent container which then contains
+child elements, which should be equalized, with a `data-equalize-child` data attribute.
+
+Note that child elements are not forced to be placed directly after the parent container.
+
+## Basic example
+
+```html
+<div class="parent" data-equalize-parent>
+    <div class="child" data-equalize-child></div>
+    <div class="child" data-equalize-child></div>
+    <div class="child" data-equalize-child></div>
+</div>
+```
 
 # Demonstration
 
