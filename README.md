@@ -6,13 +6,19 @@ A simple equalizer built on top of jQuery.
 
 TODO
 
-# Usage
+# Basic usage
 
 TODO
 
 # Demonstration
 
-Open the file `demo.html` in your browser.
+I have created an extra `demo.html` file to demonstrate the behavior of this
+equalizer. Just open it in your browser and you're ready to go.
+
+# TODOs
+
+* Add functionality to nest equalizers.
+* Avoid possible problems when viewing with different browsers in different versions
 
 # License
 
