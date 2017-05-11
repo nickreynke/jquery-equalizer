@@ -1,0 +1,1 @@
+nodemon -e js -w src/ -i dist/ -x "npm run uglify"
