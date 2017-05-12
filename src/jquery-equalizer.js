@@ -29,23 +29,63 @@
  */
 (function ($) {
 
-    var allEqualized = false,
-        parentAttributeName = 'data-equalize-parent',
-        childAttributeName = 'data-equalize-child';
+    /**
+     * Used to identify if equalizable elements were already equalized.
+     *
+     * @type {boolean}
+     */
+    var alreadyEqualized = false;
+
+    /**
+     * The parent data attribute name is used to identify a parent
+     * element which contains child elements.
+     *
+     * This attribute is required.
+     *
+     * @type {string}
+     */
+    const ATTRIBUTE_EQUALIZE_PARENT = 'equalize-parent';
+
+    /**
+     * The child data attribute name is used to identify child
+     * elements within a parent element.
+     *
+     * This attribute is required.
+     *
+     * @type {string}
+     */
+    const ATTRIBUTE_EQUALIZE_CHILD = 'equalize-child';
+
+    /**
+     * Optional data attribute name to tell the equalizer when to start to equalize.
+     *
+     * @type {string}
+     */
+    const OPTIONAL_ATTRIBUTE_EQUALIZE_FROM = 'equalize-from';
+
+    /**
+     * Optional data attribute name to tell the equalizer when to stop to equalize.
+     *
+     * @type {string}
+     */
+    const OPTIONAL_ATTRIBUTE_EQUALIZE_TO = 'equalize-to';
 
     /**
      * Resets all equalized elements.
+     *
+     * Necessary to unset all CSS inline-styled heights to get the real height of the highest element.
      */
-    var unequalizeAll = function () {
+    function unequalizeAll() {
 
         // Unequalization unnecessary if already or not equalized
-        if (allEqualized === false) {
+        if (alreadyEqualized === false) {
             return;
         }
 
-        $('[' + parentAttributeName + ']').each(function () {
+        $('[data-' + ATTRIBUTE_EQUALIZE_PARENT + ']').each(function () {
 
-            var childElements = $(this).find('[' + childAttributeName + ']');
+            // Find all child elements with their desired data attribute
+            var childElements = $(this).find('[data-' + ATTRIBUTE_EQUALIZE_CHILD + ']');
 
             // Remove CSS inline-style "height" from all child elements
             childElements.each(function () {
@@ -54,70 +94,182 @@
             });
         });
 
-        allEqualized = false;
-    };
+        alreadyEqualized = false;
+    }
 
     /**
-     * Validates the selected child if it is equalizeable.
+     * @todo Change description.
      *
-     * @param {jQuery} child
-     * @returns {boolean} "true", if the data "equalize-up" couldn't be found or the current
-     * window width is bigger than or equal to the value the data is holding. "false", if not.
+     * Validates a child if it is equalizable depending on its parent element.
+     *
+     * @param {jQuery} parent
+     * @returns {boolean} @todo
      */
-    var isEqualizeable = function (child) {
+    function areChildrenEqualizeable(parent) {
 
-        if (child.data('equalize-up') === undefined) {
+        // If no optional data attributes are present > equalize.
+        if (!hasOptionalEqualizeAttributes(parent)) {
             return true;
         }
 
-        var equalizeUp = +child.data('equalize-up'); // "+" converts to a number
+        var hasDataAttributeEqualizeFrom = hasOptionalDataAttribute(parent, OPTIONAL_ATTRIBUTE_EQUALIZE_FROM);
+        var hasDataAttributeEqualizeTo = hasOptionalDataAttribute(parent, OPTIONAL_ATTRIBUTE_EQUALIZE_TO);
 
-        return $(window).width() >= equalizeUp;
-    };
+        // Both "data-equalize-from" and "data-equalize-to" data attributes set?
+        if (hasDataAttributeEqualizeFrom && hasDataAttributeEqualizeTo) {
+
+            // Is window width in range of both data attribute values?
+            return screenWidthBiggerThanStartValue(parent) && screenWidthSmallerThanEndValue(parent);
+        }
+
+        if (hasDataAttributeEqualizeFrom) {
+            return screenWidthBiggerThanStartValue(parent);
+        }
+
+        if (hasDataAttributeEqualizeTo) {
+            return screenWidthSmallerThanEndValue(parent);
+        }
+
+        return false;
+    }
 
     /**
-     * Equalizes all elements with data "data-equalize-parent" applied on
-     * which has children with data "data-equalize-child" applied on.
+     * Check if there are any data attributes present on the given element.
+     *
+     * Necessary to save some performance instead of checking each attribute (which is'nt available).
+     *
+     * @param {jQuery} element
+     * @returns {boolean} "true", if an optional data attribute was found. "false", if not.
      */
-    var equalizeAll = function () {
+    function hasOptionalEqualizeAttributes(element) {
 
-        // Reset to be able to re-set the height value of the child elements
-        unequalizeAll();
+        var optionalEqualizeAttributeNames = [
+            OPTIONAL_ATTRIBUTE_EQUALIZE_FROM,
+            OPTIONAL_ATTRIBUTE_EQUALIZE_TO
+        ];
 
-        $('[' + parentAttributeName + ']').each(function () {
+        for (var i = 0; i < optionalEqualizeAttributeNames.length; i++) {
 
-            var maxHeight = -1;
-            var children = $(this).find('[' + childAttributeName + ']');
+            var optionalEqualizeAttributeName = optionalEqualizeAttributeNames[i];
 
-            // Go through all children and get the highest height value
-            children.each(function () {
+            if (element.data(optionalEqualizeAttributeName) === undefined) {
+                continue;
+            }
 
-                var child = $(this);
+            return true;
+        }
 
-                if (!isEqualizeable(child)) {
-                    return;
-                }
+        return false;
+    }
 
-                maxHeight = maxHeight > child.outerHeight() ? maxHeight : child.outerHeight();
-            });
+    /**
+     * Checks if the given data attribute is present for the desired element.
+     *
+     * @param {jQuery} element
+     * @param {string} dataAttributeName
+     * @returns {boolean} "true", if the data attribute is present. "false", if not.
+     */
+    function hasOptionalDataAttribute(element, dataAttributeName) {
+        return element.data(dataAttributeName) !== undefined;
+    }
 
-            // Go through all children to apply the highest height to them
-            children.each(function () {
+    /**
+     * @todo Change description.
+     *
+     * Checks for the existence of the data attribute "equalize-from", takes its value
+     * and checks if the current window width is bigger or equal to it.
+     *
+     * @param {jQuery} element
+     * @returns {boolean} "true", if the data attribute was found and if its value is bigger or equal to the current
+     * window width. "false", if not.
+     */
+    function screenWidthBiggerThanStartValue(element) {
 
-                var child = $(this);
+        // Convert value to number
+        var eqFrom = +element.data(OPTIONAL_ATTRIBUTE_EQUALIZE_FROM);
 
-                if (!isEqualizeable(child)) {
-                    return;
-                }
+        // Check if current window width is bigger or equal to the value
+        return $(window).width() >= eqFrom;
+    }
 
-                // Apply the highest height to all children
-                child.outerHeight(maxHeight);
-            });
+    /**
+     * @todo Change description.
+     *
+     * Checks for the existence of the data attribute "equalize-to", takes its value
+     * and checks if the current window width is smaller or equal to it.
+     *
+     * @param {jQuery} element
+     * @returns {boolean} "true", if the data attribute was found and if its value is smaller or equal to the current
+     * window width. "false", if not.
+     */
+    function screenWidthSmallerThanEndValue(element) {
 
+        // Convert value to number
+        var eqTo = +element.data(OPTIONAL_ATTRIBUTE_EQUALIZE_TO);
+
+        // Check if current window width is smaller or equal to the value
+        return $(window).width() <= eqTo;
+    }
+
+    /**
+     * @param {jQuery} children
+     * @returns {number} The height of the highest child element.
+     */
+    function getHeightOfHighestChild(children) {
+
+        var maxHeight = -1;
+
+        children.each(function () {
+            var child = $(this);
+            // @todo I've read that browsers might calculate the height differently. Check it!
+            maxHeight = maxHeight > child.outerHeight() ? maxHeight : child.outerHeight();
         });
 
-        allEqualized = true;
-    };
+        return maxHeight;
+    }
+
+    /**
+     * @param {jQuery} children
+     * @param {number} maxHeight The height of the highest child element.
+     */
+    function applyHighestHeightToChildren(children, maxHeight) {
+
+        children.each(function () {
+
+            var child = $(this);
+
+            // Apply the highest height to all children
+            child.outerHeight(maxHeight);
+        });
+    }
+
+    /**
+     * Equalizes all elements with data attribute "data-equalize-parent" applied on
+     * which has children with data attribute "data-equalize-child" applied on.
+     */
+    function equalizeAll() {
+
+        // Reset to be able to re-set the height value of all child elements
+        unequalizeAll();
+
+        $('[data-' + ATTRIBUTE_EQUALIZE_PARENT + ']').each(function () {
+
+            var children = $(this).find('[data-' + ATTRIBUTE_EQUALIZE_CHILD + ']');
+
+            // Check if child elements within this parent element are equalizable.
+            if (!areChildrenEqualizeable($(this))) {
+                return;
+            }
+
+            // Go through all children and get the highest height value
+            var maxHeight = getHeightOfHighestChild(children);
+
+            // Go through all children to apply the highest height to them (the actual equalize process)
+            applyHighestHeightToChildren(children, maxHeight);
+        });
+
+        alreadyEqualized = true;
+    }
 
     // Initially equalize equalizable elements
     equalizeAll();

@@ -8,7 +8,7 @@
 
     <title>jQuery Equalizer Demo</title>
 
-    <link rel="stylesheet" type="text/css" href="https//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
     <link rel="stylesheet" type="text/css" href="demo.css">
 </head>
 <body>
@@ -66,7 +66,7 @@
     contains children whose attribute is <code>data-equalize-child</code>.
 </p>
 
-<div class="info-box-wrapper" data-equalize-parent>
+<div class="info-box-wrapper" data-equalize-parent data-equalize-from="500">
 
     <div class="info-box" data-equalize-child>
         <p>
@@ -113,7 +113,7 @@
 
 <script type="text/javascript">
     $.each(document.styleSheets, function (i, sheet) {
-        if (sheet.href === 'https//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css') {
+        if (sheet.href === '//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css') {
             var rules = sheet.rules ? sheet.rules : sheet.cssRules;
             if (rules.length === 0) {
                 $('<link rel="stylesheet" type="text/css" href="node_modules/normalize.css/normalize.css" />').appendTo('head');
@@ -122,7 +122,8 @@
     })
 </script>
 
-<script type="text/javascript" src="dist/jquery-equalizer.min.js"></script>
+<!--<script type="text/javascript" src="dist/jquery-equalizer.min.js"></script>-->
+<script type="text/javascript" src="src/jquery-equalizer.js"></script>
 
 </body>
 </html>
