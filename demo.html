@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>jQuery Equalizer Demo</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
+    <link rel="stylesheet" type="text/css" href="demo.css">
+</head>
+<body>
+
+<h1>jQuery Equalizer Demo</h1>
+
+<h2>Without equalizer</h2>
+
+<div class="info-box-wrapper">
+
+    <div class="info-box">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium at autem distinctio
+            explicabo fugiat laborum possimus quaerat ratione! Dignissimos distinctio esse exercitationem molestias nemo
+            perspiciatis porro, provident suscipit temporibus!
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A alias aspernatur autem doloremque dolores ex
+            fugit id nobis nostrum officiis pariatur possimus qui saepe similique sunt, totam ullam vel voluptatum?
+        </p>
+    </div>
+
+    <div class="info-box">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus accusantium, amet consequuntur eaque
+            fuga fugit ipsam itaque maiores maxime mollitia natus nesciunt obcaecati porro quaerat quam rem
+            reprehenderit vitae?
+        </p>
+    </div>
+
+    <div class="info-box">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium ad aliquam amet atque deserunt
+            dignissimos dolor eaque, enim expedita facilis id mollitia omnis, qui rem rerum similique vel veniam,
+            voluptatum.
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad amet aspernatur dolorem ducimus enim eos facere
+            id laborum laudantium necessitatibus nulla pariatur, quis quos saepe sapiente ut voluptas voluptatem.
+            Soluta!
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae delectus dicta impedit ipsa iste nisi
+            numquam odio tempore voluptas! Commodi consequatur explicabo iste iusto magnam minus non quis veritatis
+            voluptatibus.
+        </p>
+    </div>
+
+</div>
+
+<h2>With equalizer</h2>
+
+<p>
+    The equalizer only works with a <code>data-equalize-parent</code> attribute applied on a parent container which
+    contains children whose attribute is <code>data-equalize-child</code>.
+</p>
+
+<div class="info-box-wrapper" data-equalize-parent data-equalize-from="500">
+
+    <div class="info-box" data-equalize-child>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium at autem distinctio
+            explicabo fugiat laborum possimus quaerat ratione! Dignissimos distinctio esse exercitationem molestias nemo
+            perspiciatis porro, provident suscipit temporibus!
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A alias aspernatur autem doloremque dolores ex
+            fugit id nobis nostrum officiis pariatur possimus qui saepe similique sunt, totam ullam vel voluptatum?
+        </p>
+    </div>
+
+    <div class="info-box" data-equalize-child>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus accusantium, amet consequuntur eaque
+            fuga fugit ipsam itaque maiores maxime mollitia natus nesciunt obcaecati porro quaerat quam rem
+            reprehenderit vitae?
+        </p>
+    </div>
+
+    <div class="info-box" data-equalize-child>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium ad aliquam amet atque deserunt
+            dignissimos dolor eaque, enim expedita facilis id mollitia omnis, qui rem rerum similique vel veniam,
+            voluptatum.
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad amet aspernatur dolorem ducimus enim eos facere
+            id laborum laudantium necessitatibus nulla pariatur, quis quos saepe sapiente ut voluptas voluptatem.
+            Soluta!
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae delectus dicta impedit ipsa iste nisi
+            numquam odio tempore voluptas! Commodi consequatur explicabo iste iusto magnam minus non quis veritatis
+            voluptatibus.
+        </p>
+    </div>
+
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="node_modules/jquery/dist/jquery.min.js">\x3C/script>')</script>
+
+<script type="text/javascript">
+    $.each(document.styleSheets, function (i, sheet) {
+        if (sheet.href === '//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css') {
+            var rules = sheet.rules ? sheet.rules : sheet.cssRules;
+            if (rules.length === 0) {
+                $('<link rel="stylesheet" type="text/css" href="node_modules/normalize.css/normalize.css" />').appendTo('head');
+            }
+        }
+    })
+</script>
+
+<!--<script type="text/javascript" src="dist/jquery-equalizer.min.js"></script>-->
+<script type="text/javascript" src="src/jquery-equalizer.js"></script>
+
+</body>
+</html>

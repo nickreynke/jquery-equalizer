@@ -1,0 +1,28 @@
+{
+  "name": "jquery-equalizer",
+  "version": "1.0.0",
+  "description": "A simple equalizer built on top of jQuery.",
+  "main": "src/jquery-equalizer.js",
+  "scripts": {
+    "watch-js": "bin/watch-js",
+    "uglify": "uglifyjs src/jquery-equalizer.js --compress --mangle --comments --output dist/jquery-equalizer.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nickreynke/jquery-equalizer.git"
+  },
+  "author": "Nicklas Reincke <contact@reynke.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nickreynke/jquery-equalizer/issues"
+  },
+  "homepage": "https://github.com/nickreynke/jquery-equalizer#readme",
+  "devDependencies": {
+    "nodemon": "^1.11.0",
+    "uglify-js": "^3.0.3"
+  },
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "normalize.css": "^7.0.0"
+  }
+}

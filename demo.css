@@ -1,0 +1,25 @@
+
+body {
+    padding: 0 15px;
+}
+
+.info-box-wrapper {
+    display: block;
+    margin-bottom: 50px;
+}
+
+.info-box-wrapper::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.info-box {
+    width: 33.33%;
+    outline: 1px solid;
+    float: left;
+}
+
+.info-box > p {
+    padding: 15px;
+}
