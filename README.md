@@ -1,6 +1,7 @@
 # jQuery Equalizer
 
 ![](https://img.shields.io/badge/license-MIT-green.svg)
+![](https://img.shields.io/badge/Version-1.0.0-green.svg)
 ![](https://img.shields.io/badge/jQuery-%5E3.2.1-blue.svg)
 
 A simple equalizer built on top of jQuery.
