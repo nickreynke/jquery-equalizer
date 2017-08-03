@@ -8,7 +8,7 @@ A simple equalizer built on top of jQuery.
 # Features
 
 * Equalizes heights of `data-equalize-child` elements within `data-equalize-parent` elements
-  * Looks for the highest height of the child elements and sets it for all child elements
+  * Looks for the highest child element and sets its height for all other child elements
 
 # Usage
 
