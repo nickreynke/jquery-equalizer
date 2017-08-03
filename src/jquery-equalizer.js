@@ -271,8 +271,10 @@
         alreadyEqualized = true;
     }
 
-    // Initially equalize equalizable elements
-    equalizeAll();
+    // Initially equalize equalizable elements on load
+    $(window).on('load', function () {
+        equalizeAll();
+    });
 
     // Re-equalize when window is being re-sized
     $(window).resize(function () {
